@@ -1,26 +1,28 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
+using Baidu.YingYan.Extensions;
 
-namespace Baidu.Yingyan.Track
+namespace Baidu.YingYan.Track
 {
     /// <summary>
     /// 为 entity 上传轨迹点，支持为一个 entity上传一个或多个轨迹点，也支持为多个 entity 上传多个轨迹点。
-    /// 轨迹纠偏类接口为开发者提供轨迹去噪、抽稀、绑路功能，包括实时位置纠偏、轨迹纠偏、里程计算功能。
-    /// <a href="http://lbsyun.baidu.com/index.php?title=yingyan/api/v3/trackupload">轨迹上传</a>
-    /// <a href="http://lbsyun.baidu.com/index.php?title=yingyan/api/v3/trackprocess">轨迹查询和纠偏</a>
+    /// 轨迹纠偏类接口为开发者提供轨迹去噪、抽稀、绑路功能，包括实时位置纠偏、轨迹纠偏、里程计算功能。 <a
+    /// href="http://lbsyun.baidu.com/index.php?title=yingyan/api/v3/trackupload">轨迹上传</a><a
+    /// href="http://lbsyun.baidu.com/index.php?title=yingyan/api/v3/trackprocess">轨迹查询和纠偏</a>
     /// </summary>
-    public partial class TrackApi
+    public class TrackApi
     {
-        private YingyanApi framework;
-        private const string url = "track/";
+        private readonly YingYanApi _framework;
+        private const string Url = "track/";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TrackApi"/> class.
+        /// Initializes a new instance of the <see cref="TrackApi" /> class.
         /// </summary>
         /// <param name="framework">The framework.</param>
-        public TrackApi(YingyanApi framework)
+        public TrackApi(YingYanApi framework)
         {
-            this.framework = framework;
+            _framework = framework;
         }
 
         #region 上传轨迹点
@@ -30,26 +32,30 @@ namespace Baidu.Yingyan.Track
         /// </summary>
         /// <param name="point">坐标</param>
         /// <returns></returns>
-        public async Task<CommonResult> addpoint(TrackPoint point)
+        public async Task<CommonResult> AddPoint(TrackPoint point)
         {
-            var args = framework.getDefaultArgs(point?.columns?.ToDictionary(o => o.Key, o => o.Value?.ToString()));
-            args["entity_name"] = point.entity_name;
-            args["latitude"] = point.latitude.ToString();
-            args["longitude"] = point.longitude.ToString();
-            args["loc_time"] = point.loc_time.ToUtcTicks().ToString();
-            args["coord_type_input"] = point.coord_type_input.ToString();
-            if (point.speed > 0)
-                args["speed"] = point.speed.ToString();
-            if (point.direction > 0)
-                args["direction"] = point.direction.ToString();
-            if (point.height > 0)
-                args["height"] = point.height.ToString();
-            if (point.radius > 0)
-                args["radius"] = point.radius.ToString();
-            if (string.IsNullOrWhiteSpace(point.object_name) == false)
-                args["object_name"] = point.object_name;
+            var args = _framework.GetDefaultArgs(point?.Columns?.ToDictionary(o => o.Key, o => o.Value?.ToString()));
 
-            return await framework.post<CommonResult>(url + "addpoint", args);
+            if (point != null)
+            {
+                args["entity_name"] = point.EntityName;
+                args["latitude"] = point.Latitude.ToString(CultureInfo.InvariantCulture);
+                args["longitude"] = point.Longitude.ToString(CultureInfo.InvariantCulture);
+                args["loc_time"] = point.LocTime.ToUtcTicks().ToString();
+                args["coord_type_input"] = point.CoordTypeInput.ToString();
+                if (point.Speed > 0)
+                    args["speed"] = point.Speed.ToString();
+                if (point.Direction > 0)
+                    args["direction"] = point.Direction.ToString();
+                if (point.Height > 0)
+                    args["height"] = point.Height.ToString();
+                if (point.Radius > 0)
+                    args["radius"] = point.Radius.ToString();
+                if (string.IsNullOrWhiteSpace(point.ObjectName) == false)
+                    args["object_name"] = point.ObjectName;
+            }
+
+            return await _framework.Post<CommonResult>(Url + "addpoint", args);
         }
 
         /// <summary>
@@ -57,13 +63,14 @@ namespace Baidu.Yingyan.Track
         /// </summary>
         /// <param name="points">坐标，轨迹点总数不超过100个，json 格式。轨迹点字段描述参见</param>
         /// <returns></returns>
-        public async Task<BatchAddPointResult> addpoints(TrackPoint[] points)
+        public async Task<BatchAddPointResult> AddPoints(TrackPoint[] points)
         {
-            var args = framework.getDefaultArgs();
+            var args = _framework.GetDefaultArgs();
+
             if (points?.Any() == true)
                 args["point_list"] = Newtonsoft.Json.JsonConvert.SerializeObject(points);
 
-            return await framework.post<BatchAddPointResult>(url + "addpoints", args);
+            return await _framework.Post<BatchAddPointResult>(Url + "addpoints", args);
         }
 
         #endregion 上传轨迹点
@@ -75,9 +82,9 @@ namespace Baidu.Yingyan.Track
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<TrackHistoryGetLatestPointResult> getlatestpoint(TrackHistoryGetLatestPointParam param)
+        public Task<TrackHistoryGetLatestPointResult> GetLatestPoint(TrackHistoryGetLatestPointParam param)
         {
-            return framework.get<TrackHistoryGetLatestPointResult>(url + "getlatestpoint", param);
+            return _framework.Get<TrackHistoryGetLatestPointResult>(Url + "getlatestpoint", param);
         }
 
         /// <summary>
@@ -85,9 +92,9 @@ namespace Baidu.Yingyan.Track
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<TrackHistoryGetDistanceResult> getdistance(TrackHistoryGetDistanceParam param)
+        public Task<TrackHistoryGetDistanceResult> GetDistance(TrackHistoryGetDistanceParam param)
         {
-            return framework.get<TrackHistoryGetDistanceResult>(url + "getdistance", param);
+            return _framework.Get<TrackHistoryGetDistanceResult>(Url + "getdistance", param);
         }
 
         /// <summary>
@@ -95,9 +102,9 @@ namespace Baidu.Yingyan.Track
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<TrackHistoryGetTrackResult> gettrack(TrackHistoryGetTrackParam param)
+        public Task<TrackHistoryGetTrackResult> GetTrack(TrackHistoryGetTrackParam param)
         {
-            return framework.get<TrackHistoryGetTrackResult>(url + "gettrack", param);
+            return _framework.Get<TrackHistoryGetTrackResult>(Url + "gettrack", param);
         }
 
         #endregion 轨迹纠偏

@@ -1,9 +1,9 @@
-﻿namespace Baidu.Yingyan.Track
+﻿namespace Baidu.YingYan.Track
 {
     /// <summary>
     /// 查询轨迹里程结果
     /// </summary>
-    /// <seealso cref="Baidu.Yingyan.CommonResult" />
+    /// <seealso cref="CommonResult" />
     public class TrackHistoryGetDistanceResult : CommonResult
     {
         /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace Baidu.Yingyan.Fence
+﻿namespace Baidu.YingYan.Fence
 {
     /// <summary>
     /// 删除围栏结果
@@ -8,6 +8,6 @@
         /// <summary>
         /// 围栏id列表
         /// </summary>
-        public int[] fence_ids { get; set; }
+        public int[] FenceIds { get; set; }
     }
 }

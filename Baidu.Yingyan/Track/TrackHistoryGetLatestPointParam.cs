@@ -1,28 +1,28 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Baidu.Yingyan.Track
+namespace Baidu.YingYan.Track
 {
     /// <summary>
     /// 实时纠偏参数
     /// </summary>
-    public class TrackHistoryGetLatestPointParam : IYingyanParam
+    public class TrackHistoryGetLatestPointParam : IYingYanParam
     {
         /// <summary>
         /// entity唯一标识
         /// </summary>
         [Required]
-        public string entity_name { get; set; }
+        public string EntityName { get; set; }
 
         /// <summary>
         /// 纠偏选项
         /// </summary>
-        public TrackHistoryProcessOption process_option { get; set; }
+        public TrackHistoryProcessOption ProcessOption { get; set; }
 
         /// <summary>
         /// 返回的坐标类型
         /// </summary>
-        public CoordTypeEnums coord_type_output { get; set; } = CoordTypeEnums.bd09ll;
+        public CoordTypeEnums CoordTypeOutput { get; set; } = CoordTypeEnums.bd09Ll;
 
         /// <summary>
         /// 填充参数
@@ -32,13 +32,18 @@ namespace Baidu.Yingyan.Track
         public virtual Dictionary<string, string> FillArgs(Dictionary<string, string> args)
         {
             if (args == null)
+            {
                 args = new Dictionary<string, string>();
-            args["entity_name"] = entity_name;
-            var op = process_option?.ToString();
+            }
+
+            args["entity_name"] = EntityName;
+
+            var op = ProcessOption?.ToString();
+
             if (string.IsNullOrWhiteSpace(op) == false)
                 args["process_option"] = op;
 
-            args["coord_type_output"] = coord_type_output.ToString();
+            args["coord_type_output"] = CoordTypeOutput.ToString();
             return args;
         }
     }

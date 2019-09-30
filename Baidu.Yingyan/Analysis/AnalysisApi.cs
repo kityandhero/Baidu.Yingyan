@@ -1,23 +1,23 @@
 ﻿using System.Threading.Tasks;
 
-namespace Baidu.Yingyan.Analysis
+namespace Baidu.YingYan.Analysis
 {
     /// <summary>
-    /// 鹰眼轨迹分析类接口提供停留点分析和驾驶行为分析功能：
-    /// <a href="http://lbsyun.baidu.com/index.php?title=yingyan/api/v3/analysis">轨迹分析</a>
+    /// 鹰眼轨迹分析类接口提供停留点分析和驾驶行为分析功能： <a
+    /// href="http://lbsyun.baidu.com/index.php?title=yingyan/api/v3/analysis">轨迹分析</a>
     /// </summary>
-    public partial class AnalysisApi
+    public class AnalysisApi
     {
-        private YingyanApi framework;
-        private const string url = "analysis/";
+        private readonly YingYanApi _framework;
+        private const string Url = "analysis/";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AnalysisApi"/> class.
+        /// Initializes a new instance of the <see cref="AnalysisApi" /> class.
         /// </summary>
         /// <param name="framework">The framework.</param>
-        public AnalysisApi(YingyanApi framework)
+        public AnalysisApi(YingYanApi framework)
         {
-            this.framework = framework;
+            _framework = framework;
         }
 
         /// <summary>
@@ -25,9 +25,9 @@ namespace Baidu.Yingyan.Analysis
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<TrackAnalysisStayPointResult> staypoint(TrackAnalysisStayPointParam param)
+        public Task<TrackAnalysisStayPointResult> StayPoint(TrackAnalysisStayPointParam param)
         {
-            return framework.get<TrackAnalysisStayPointResult>(url + "staypoint", param);
+            return _framework.Get<TrackAnalysisStayPointResult>(Url + "staypoint", param);
         }
 
         /// <summary>
@@ -35,9 +35,9 @@ namespace Baidu.Yingyan.Analysis
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<TrackAnalysisDrivingBehaviorResult> drivingbehaviour(TrackAnalysisDrivingBehaviorParam param)
+        public Task<TrackAnalysisDrivingBehaviorResult> DrivingBehaviour(TrackAnalysisDrivingBehaviorParam param)
         {
-            return framework.get<TrackAnalysisDrivingBehaviorResult>(url + "drivingbehaviour", param);
+            return _framework.Get<TrackAnalysisDrivingBehaviorResult>(Url + "drivingbehaviour", param);
         }
     }
 }

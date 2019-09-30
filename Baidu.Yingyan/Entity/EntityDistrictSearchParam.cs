@@ -2,12 +2,12 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Baidu.Yingyan.Entity
+namespace Baidu.YingYan.Entity
 {
     /// <summary>
-    ///  行政区搜索
+    /// 行政区搜索
     /// </summary>
-    public class EntityDistrictSearchParam : EntityListWithOrderParam
+    public abstract class EntityDistrictSearchParam : EntityListWithOrderParam
     {
         /// <summary>
         /// 行政区划关键字;
@@ -15,12 +15,12 @@ namespace Baidu.Yingyan.Entity
         /// 关键字示例： 中国 北京市 湖南省长沙市 湖南省长沙市雨花区
         /// </summary>
         [Required]
-        public string keyword { get; set; }
+        public string Keyword { get; set; }
 
         /// <summary>
         /// 设置返回值的内容
         /// </summary>
-        public EntityDistrictSearchReturnTypeEnums return_type { get; set; } = EntityDistrictSearchReturnTypeEnums.all;
+        public EntityDistrictSearchReturnTypeEnums ReturnType { get; set; } = EntityDistrictSearchReturnTypeEnums.all;
 
         /// <summary>
         /// 填充参数
@@ -30,7 +30,7 @@ namespace Baidu.Yingyan.Entity
         public override Dictionary<string, string> FillArgs(Dictionary<string, string> args)
         {
             args = base.FillArgs(args);
-            args["return_type"] = return_type.ToString();
+            args["return_type"] = ReturnType.ToString();
             return args;
         }
     }

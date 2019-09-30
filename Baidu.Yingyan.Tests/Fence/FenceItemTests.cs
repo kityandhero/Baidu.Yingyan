@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Baidu.YingYan;
 using NUnit.Framework;
-using Baidu.Yingyan.Fence;
-using Baidu.Yingyan;
-using Newtonsoft.Json;
 
-namespace Baidu.Yingyan.Tests.Fence
+namespace Baidu.YingYan.Tests.Fence
 {
     [TestFixture()]
     public class FenceItemTests
@@ -21,10 +16,10 @@ namespace Baidu.Yingyan.Tests.Fence
         {
             var t = new FenceItemAsArgs()
             {
-                center = new LocationPoint() { longitude = 110, latitude = 40 },
+                center = new LocationPoint() { Longitude = 110, Latitude = 40 },
                 vertexes = new LocationPoint[] {
-                     new LocationPoint() { longitude = 111, latitude = 41},
-                      new LocationPoint() { longitude = 112, latitude = 42 }
+                     new LocationPoint() { Longitude = 111, Latitude = 41},
+                      new LocationPoint() { Longitude = 112, Latitude = 42 }
                 }.ToList(),
                 valid_date = DateTime.Now,
             };

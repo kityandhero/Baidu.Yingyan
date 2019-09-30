@@ -1,29 +1,27 @@
 ﻿using System.Threading.Tasks;
 
-namespace Baidu.Yingyan.Fence
+namespace Baidu.YingYan.Fence
 {
     /// <summary>
-    /// 地理围栏
-    /// 围栏管理类接口主要负责围栏的创建、更新、删除和查询，支持以下类型的围栏
-    /// 地理围栏报警类接口主要提供
+    /// 地理围栏 围栏管理类接口主要负责围栏的创建、更新、删除和查询，支持以下类型的围栏 地理围栏报警类接口主要提供
     /// 1. 查询监控对象在围栏内/外：查询被监控对象在指定围栏内或外，也支持查询被监控对象目前相对于所有围栏的状态
     /// 2. 查询围栏报警信息：支持查询某时间段内单个围栏或该 service 下所有围栏的报警信息
-    /// 3. 服务端报警信息推送：鹰眼将报警信息实时推送至开发者的服务端
-    /// <a href="http://lbsyun.baidu.com/index.php?title=yingyan/api/v3/geofence">围栏管理类</a>
-    /// <a href="http://lbsyun.baidu.com/index.php?title=yingyan/api/v3/geofencealarm">地理围栏报警</a>
+    /// 3. 服务端报警信息推送：鹰眼将报警信息实时推送至开发者的服务端 <a
+    ///    href="http://lbsyun.baidu.com/index.php?title=yingyan/api/v3/geofence">围栏管理类</a><a
+    ///    href="http://lbsyun.baidu.com/index.php?title=yingyan/api/v3/geofencealarm">地理围栏报警</a>
     /// </summary>
-    public partial class FenceApi
+    public class FenceApi
     {
-        private YingyanApi framework;
-        private const string url = "fence/";
+        private readonly YingYanApi _framework;
+        private const string Url = "fence/";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FenceApi"/> class.
+        /// Initializes a new instance of the <see cref="FenceApi" /> class.
         /// </summary>
         /// <param name="framework">The framework.</param>
-        public FenceApi(YingyanApi framework)
+        public FenceApi(YingYanApi framework)
         {
-            this.framework = framework;
+            _framework = framework;
         }
 
         #region 围栏管理类
@@ -33,9 +31,9 @@ namespace Baidu.Yingyan.Fence
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<FenceCreateFenceResult> createcirclefence(FenceCreateCircleFenceParam param)
+        public Task<FenceCreateFenceResult> CreateCircleFence(FenceCreateCircleFenceParam param)
         {
-            return framework.post<FenceCreateFenceResult>(url + "createcirclefence", param);
+            return _framework.Post<FenceCreateFenceResult>(Url + "createcirclefence", param);
         }
 
         /// <summary>
@@ -43,9 +41,9 @@ namespace Baidu.Yingyan.Fence
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<FenceCreateFenceResult> createpolygonfence(FenceCreatePolygonFenceParam param)
+        public Task<FenceCreateFenceResult> CreatePolygonFence(FenceCreatePolygonFenceParam param)
         {
-            return framework.post<FenceCreateFenceResult>(url + "createpolygonfence", param);
+            return _framework.Post<FenceCreateFenceResult>(Url + "createpolygonfence", param);
         }
 
         /// <summary>
@@ -53,9 +51,9 @@ namespace Baidu.Yingyan.Fence
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<FenceCreateFenceResult> createpolylinefence(FenceCreatePolylineFenceParam param)
+        public Task<FenceCreateFenceResult> CreatePolylineFence(FenceCreatePolylineFenceParam param)
         {
-            return framework.post<FenceCreateFenceResult>(url + "createpolylinefence", param);
+            return _framework.Post<FenceCreateFenceResult>(Url + "createpolylinefence", param);
         }
 
         /// <summary>
@@ -63,9 +61,9 @@ namespace Baidu.Yingyan.Fence
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<FenceCreateDistrictFenceResult> createdistrictfence(FenceCreateDistrictFenceParam param)
+        public Task<FenceCreateDistrictFenceResult> CreateDistrictFence(FenceCreateDistrictFenceParam param)
         {
-            return framework.post<FenceCreateDistrictFenceResult>(url + "createdistrictfence", param);
+            return _framework.Post<FenceCreateDistrictFenceResult>(Url + "createdistrictfence", param);
         }
 
         /// <summary>
@@ -73,9 +71,9 @@ namespace Baidu.Yingyan.Fence
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<FenceCreateFenceResult> updatecirclefence(FenceCreateCircleFenceParam param)
+        public Task<FenceCreateFenceResult> UpdateCircleFence(FenceCreateCircleFenceParam param)
         {
-            return framework.post<FenceCreateFenceResult>(url + "updatecirclefence", param);
+            return _framework.Post<FenceCreateFenceResult>(Url + "updatecirclefence", param);
         }
 
         /// <summary>
@@ -83,9 +81,9 @@ namespace Baidu.Yingyan.Fence
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<FenceCreateFenceResult> updatepolygonfence(FenceCreatePolygonFenceParam param)
+        public Task<FenceCreateFenceResult> UpdatePolygonFence(FenceCreatePolygonFenceParam param)
         {
-            return framework.post<FenceCreateFenceResult>(url + "updatepolygonfence", param);
+            return _framework.Post<FenceCreateFenceResult>(Url + "updatepolygonfence", param);
         }
 
         /// <summary>
@@ -93,9 +91,9 @@ namespace Baidu.Yingyan.Fence
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<FenceCreateFenceResult> updatepolylinefence(FenceCreatePolylineFenceParam param)
+        public Task<FenceCreateFenceResult> UpdatePolylineFence(FenceCreatePolylineFenceParam param)
         {
-            return framework.post<FenceCreateFenceResult>(url + "updatepolylinefence", param);
+            return _framework.Post<FenceCreateFenceResult>(Url + "updatepolylinefence", param);
         }
 
         /// <summary>
@@ -103,9 +101,9 @@ namespace Baidu.Yingyan.Fence
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<FenceCreateDistrictFenceResult> updatedistrictfence(FenceCreateDistrictFenceParam param)
+        public Task<FenceCreateDistrictFenceResult> UpdateDistrictFence(FenceCreateDistrictFenceParam param)
         {
-            return framework.post<FenceCreateDistrictFenceResult>(url + "updatedistrictfence", param);
+            return _framework.Post<FenceCreateDistrictFenceResult>(Url + "updatedistrictfence", param);
         }
 
         /// <summary>
@@ -113,9 +111,9 @@ namespace Baidu.Yingyan.Fence
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<FenceDeleteFenceResult> delete(FenceDeleteFenceParam param)
+        public Task<FenceDeleteFenceResult> Delete(FenceDeleteFenceParam param)
         {
-            return framework.post<FenceDeleteFenceResult>(url + "delete", param);
+            return _framework.Post<FenceDeleteFenceResult>(Url + "delete", param);
         }
 
         /// <summary>
@@ -123,9 +121,9 @@ namespace Baidu.Yingyan.Fence
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<FenceListFenceResult> list(FenceListFenceParam param)
+        public Task<FenceListFenceResult> List(FenceListFenceParam param)
         {
-            return framework.post<FenceListFenceResult>(url + "list", param);
+            return _framework.Post<FenceListFenceResult>(Url + "list", param);
         }
 
         #endregion 围栏管理类
@@ -137,9 +135,9 @@ namespace Baidu.Yingyan.Fence
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<CommonResult> addmonitoredperson(FenceMonitoredPersonEditParam param)
+        public Task<CommonResult> AddMonitoredPerson(FenceMonitoredPersonEditParam param)
         {
-            return framework.post<CommonResult>(url + "addmonitoredperson", param);
+            return _framework.Post<CommonResult>(Url + "addmonitoredperson", param);
         }
 
         /// <summary>
@@ -147,9 +145,9 @@ namespace Baidu.Yingyan.Fence
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<CommonResult> deletemonitoredperson(FenceMonitoredPersonEditParam param)
+        public Task<CommonResult> DeleteMonitoredPerson(FenceMonitoredPersonEditParam param)
         {
-            return framework.post<CommonResult>(url + "deletemonitoredperson", param);
+            return _framework.Post<CommonResult>(Url + "deletemonitoredperson", param);
         }
 
         /// <summary>
@@ -157,9 +155,9 @@ namespace Baidu.Yingyan.Fence
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<FenceMonitoredPersonQueryResult> listmonitoredperson(FenceMonitoredPersonQueryParam param)
+        public Task<FenceMonitoredPersonQueryResult> ListMonitoredPerson(FenceMonitoredPersonQueryParam param)
         {
-            return framework.get<FenceMonitoredPersonQueryResult>(url + "listmonitoredperson", param);
+            return _framework.Get<FenceMonitoredPersonQueryResult>(Url + "listmonitoredperson", param);
         }
 
         #endregion 管理围栏监控对象
@@ -171,9 +169,9 @@ namespace Baidu.Yingyan.Fence
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<FenceQueryStatusResult> querystatus(FenceQueryStatusParam param)
+        public Task<FenceQueryStatusResult> QueryStatus(FenceQueryStatusParam param)
         {
-            return framework.get<FenceQueryStatusResult>(url + "querystatus", param);
+            return _framework.Get<FenceQueryStatusResult>(Url + "querystatus", param);
         }
 
         /// <summary>
@@ -181,9 +179,9 @@ namespace Baidu.Yingyan.Fence
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<FenceAlarmHistoryQueryResult> historyalarm(FenceHistoryAlarmParam param)
+        public Task<FenceAlarmHistoryQueryResult> HistoryAlarm(FenceHistoryAlarmParam param)
         {
-            return framework.get<FenceAlarmHistoryQueryResult>(url + "historyalarm", param);
+            return _framework.Get<FenceAlarmHistoryQueryResult>(Url + "historyalarm", param);
         }
 
         /// <summary>
@@ -191,9 +189,9 @@ namespace Baidu.Yingyan.Fence
         /// </summary>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        public Task<FenceBatchHistoryAlarmResult> batchhistoryalarm(FenceBatchHistoryAlarmParam param)
+        public Task<FenceBatchHistoryAlarmResult> BatchHistoryAlarm(FenceBatchHistoryAlarmParam param)
         {
-            return framework.get<FenceBatchHistoryAlarmResult>(url + "batchhistoryalarm", param);
+            return _framework.Get<FenceBatchHistoryAlarmResult>(Url + "batchhistoryalarm", param);
         }
 
         #endregion 地理围栏报警

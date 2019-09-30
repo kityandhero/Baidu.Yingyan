@@ -1,7 +1,7 @@
-﻿using Baidu.Yingyan.Converters;
+﻿using Baidu.YingYan.Converters;
 using Newtonsoft.Json;
 
-namespace Baidu.Yingyan.Fence
+namespace Baidu.YingYan.Fence
 {
     /// <summary>
     /// 删除围栏结果
@@ -17,6 +17,6 @@ namespace Baidu.Yingyan.Fence
         /// 围栏列表
         /// </summary>
         [JsonConverter(typeof(FenceBaseInfoConverter))]
-        public FenceBaseData[] fences { get; set; }
+        public FenceBaseData[] Fences { get; set; }
     }
 }

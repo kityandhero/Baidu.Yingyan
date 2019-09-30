@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Baidu.Yingyan.Entity
+namespace Baidu.YingYan.Entity
 {
     /// <summary>
     /// 矩形范围搜索参数
     /// </summary>
-    public class EntityBoundSearchParam : EntityListWithOrderParam
+    public abstract class EntityBoundSearchParam : EntityListWithOrderParam
     {
         /// <summary>
         /// 左下角
@@ -24,7 +24,7 @@ namespace Baidu.Yingyan.Entity
         /// <summary>
         /// 请求参数 bounds 的坐标类型
         /// </summary>
-        public CoordTypeEnums coord_type_input { get; set; } = CoordTypeEnums.bd09ll;
+        public CoordTypeEnums CoordTypeInput { get; set; } = CoordTypeEnums.bd09Ll;
 
         /// <summary>
         /// 填充参数
@@ -34,8 +34,8 @@ namespace Baidu.Yingyan.Entity
         public override Dictionary<string, string> FillArgs(Dictionary<string, string> args)
         {
             args = base.FillArgs(args);
-            args["coord_type_input"] = coord_type_input.ToString();
-            args["bounds"] = $"{Math.Min(a?.latitude ?? 0, b?.latitude ?? 0)},{Math.Min(a?.longitude ?? 0, b?.longitude ?? 0)};{Math.Max(a?.latitude ?? 0, b?.latitude ?? 0)},{Math.Max(a?.longitude ?? 0, b?.longitude ?? 0)}";
+            args["coord_type_input"] = CoordTypeInput.ToString();
+            args["bounds"] = $"{Math.Min(a?.Latitude ?? 0, b?.Latitude ?? 0)},{Math.Min(a?.Longitude ?? 0, b?.Longitude ?? 0)};{Math.Max(a?.Latitude ?? 0, b?.Latitude ?? 0)},{Math.Max(a?.Longitude ?? 0, b?.Longitude ?? 0)}";
 
             return args;
         }

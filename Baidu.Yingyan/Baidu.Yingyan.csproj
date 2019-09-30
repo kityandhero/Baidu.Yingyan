@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>Baidu.Yingyan</RootNamespace>
+    <RootNamespace>Baidu.YingYan</RootNamespace>
     <Authors>Ho Null</Authors>
-    <PackageProjectUrl>https://github.com/hetaoos/Baidu.Yingyan</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/hetaoos/Baidu.YingYan</PackageProjectUrl>
     <Copyright>hetaoos@gmail.com</Copyright>
     <Description>百度鹰眼 Sdk for .NET Standard 2.0</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -12,18 +12,20 @@
     <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <FileVersion>1.1.0.0</FileVersion>
     <Version>1.1.0.0-alpha3</Version>
+    <AssemblyName>Baidu.YingYan</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\Baidu.Yingyan.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netstandard2.0\Baidu.YingYan.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard2.0\Baidu.Yingyan.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard2.0\Baidu.YingYan.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>

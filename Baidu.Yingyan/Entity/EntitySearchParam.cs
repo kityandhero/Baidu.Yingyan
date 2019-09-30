@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 
-namespace Baidu.Yingyan.Entity
+namespace Baidu.YingYan.Entity
 {
     /// <summary>
     /// 关键字搜索参数
     /// </summary>
-    public class EntitySearchParam : EntityListWithOrderParam
+    public abstract class EntitySearchParam : EntityListWithOrderParam
     {
         /// <summary>
         /// 搜索关键字,默认为空，检索全部数据支持 entity_name + entity_desc 的联合模糊检索
         /// </summary>
-        public string query { get; set; }
+        public string Query { get; set; }
 
         /// <summary>
         /// 填充参数
@@ -21,8 +21,8 @@ namespace Baidu.Yingyan.Entity
         {
             args = base.FillArgs(args);
 
-            if (string.IsNullOrWhiteSpace(query) == false)
-                args["query"] = query;
+            if (string.IsNullOrWhiteSpace(Query) == false)
+                args["query"] = Query;
             return args;
         }
     }

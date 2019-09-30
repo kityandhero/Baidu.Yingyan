@@ -1,12 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System;
+using Baidu.YingYan.Extensions;
 
-namespace Baidu.Yingyan.Converters
+namespace Baidu.YingYan.Converters
 {
     /// <summary>
     /// Unix时间戳转换
     /// </summary>
-    /// <seealso cref="Newtonsoft.Json.JsonConverter" />
+    /// <seealso cref="JsonConverter" />
     public class UnixTicksConverter : JsonConverter
     {
         /// <summary>
@@ -14,7 +15,8 @@ namespace Baidu.Yingyan.Converters
         /// </summary>
         /// <param name="objectType">Type of the object.</param>
         /// <returns>
-        /// <c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
+        /// <c>true</c> if this instance can convert the specified object type; otherwise,
+        /// <c>false</c>.
         /// </returns>
         public override bool CanConvert(Type objectType)
         {
@@ -24,19 +26,17 @@ namespace Baidu.Yingyan.Converters
         /// <summary>
         /// Reads the JSON representation of the object.
         /// </summary>
-        /// <param name="reader">The <see cref="T:Newtonsoft.Json.JsonReader" /> to read from.</param>
+        /// <param name="reader">
+        /// The <see cref="T:Newtonsoft.Json.JsonReader" /> to read from.
+        /// </param>
         /// <param name="objectType">Type of the object.</param>
         /// <param name="existingValue">The existing value of object being read.</param>
         /// <param name="serializer">The calling serializer.</param>
-        /// <returns>
-        /// The object value.
-        /// </returns>
+        /// <returns>The object value.</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var t = serializer.Deserialize<long?>(reader);
-            if (t != null)
-                return t.Value.FromUtcTicks();
-            return null;
+            return t?.FromUtcTicks();
         }
 
         /// <summary>
@@ -47,9 +47,9 @@ namespace Baidu.Yingyan.Converters
         /// <param name="serializer">The calling serializer.</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (value != null && value is DateTime)
+            if (value is DateTime time)
             {
-                var p = (long)((DateTime)value).ToUtcTicks();
+                var p = (long)time.ToUtcTicks();
                 serializer.Serialize(writer, p);
             }
         }

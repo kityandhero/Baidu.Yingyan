@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace Baidu.Yingyan
+namespace Baidu.YingYan
 {
     /// <summary>
     /// 请求参数
     /// </summary>
-    public interface IYingyanParam
+    public interface IYingYanParam
     {
         /// <summary>
         /// 填充参数
@@ -18,8 +18,8 @@ namespace Baidu.Yingyan
     /// <summary>
     /// 请求参数
     /// </summary>
-    /// <seealso cref="Baidu.Yingyan.IYingyanParam" />
-    public class DictionaryYingyanParam : IYingyanParam
+    /// <seealso cref="IYingYanParam" />
+    public class DictionaryYingYanParam : IYingYanParam
     {
         /// <summary>
         /// 值列表
@@ -27,17 +27,17 @@ namespace Baidu.Yingyan
         public Dictionary<string, string> values { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DictionaryYingyanParam"/> class.
+        /// Initializes a new instance of the <see cref="DictionaryYingYanParam" /> class.
         /// </summary>
-        public DictionaryYingyanParam()
+        public DictionaryYingYanParam()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DictionaryYingyanParam"/> class.
+        /// Initializes a new instance of the <see cref="DictionaryYingYanParam" /> class.
         /// </summary>
         /// <param name="values">The values.</param>
-        public DictionaryYingyanParam(Dictionary<string, string> values)
+        public DictionaryYingYanParam(Dictionary<string, string> values)
         {
             this.values = values;
         }
@@ -46,9 +46,7 @@ namespace Baidu.Yingyan
         /// 填充参数
         /// </summary>
         /// <param name="args">原有参数</param>
-        /// <returns>
-        /// 填充后的参数
-        /// </returns>
+        /// <returns>填充后的参数</returns>
         public Dictionary<string, string> FillArgs(Dictionary<string, string> args)
         {
             if (args == null)
@@ -66,9 +64,9 @@ namespace Baidu.Yingyan
         /// </summary>
         /// <param name="item">对象</param>
 
-        public static implicit operator DictionaryYingyanParam(Dictionary<string, string> item)
+        public static implicit operator DictionaryYingYanParam(Dictionary<string, string> item)
         {
-            return new DictionaryYingyanParam(item);
+            return new DictionaryYingYanParam(item);
         }
     }
 }

@@ -1,90 +1,90 @@
-﻿using Baidu.Yingyan.Analysis;
-using Baidu.Yingyan.Entity;
-using Baidu.Yingyan.Export;
-using Baidu.Yingyan.Fence;
-using Baidu.Yingyan.Track;
+﻿using Baidu.YingYan.Analysis;
+using Baidu.YingYan.Entity;
+using Baidu.YingYan.Export;
+using Baidu.YingYan.Fence;
+using Baidu.YingYan.Track;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Baidu.YingYan.Extensions;
 
-namespace Baidu.Yingyan
+namespace Baidu.YingYan
 {
     /// <summary>
     /// 鹰眼轨迹服务接口
     /// </summary>
-    public class YingyanApi
+    public class YingYanApi
     {
         /// <summary>
         /// 用户的ak
         /// </summary>
-        public string ak { get; private set; }
+        public string Ak { get; private set; }
 
         /// <summary>
         /// service的ID，service 的唯一标识。
         /// </summary>
-        public string service_id { get; private set; }
+        public string ServiceId { get; private set; }
 
         /// <summary>
         /// sn签名的验证方式的 Security Key
         /// </summary>
-        public string sk { get; private set; }
+        public string Sk { get; private set; }
 
         /// <summary>
         /// 终端管理/实时位置搜索
         /// </summary>
-        public EntityApi entity { get; private set; }
+        public EntityApi Entity { get; private set; }
 
         /// <summary>
         /// 轨迹上传/轨迹查询和纠偏
         /// </summary>
-        public TrackApi track { get; private set; }
+        public TrackApi Track { get; private set; }
 
         /// <summary>
         /// 轨迹分析
         /// </summary>
-        public AnalysisApi analysis { get; private set; }
+        public AnalysisApi Analysis { get; private set; }
 
         /// <summary>
         /// 地理围栏管理/报警
         /// </summary>
-        public FenceApi fence { get; private set; }
+        public FenceApi Fence { get; private set; }
 
         /// <summary>
         /// 批量导出轨迹
         /// </summary>
-        public ExportApi export { get; private set; }
+        public ExportApi Export { get; private set; }
 
         /// <summary>
         /// 接口地址
         /// </summary>
-        public const string url = "http://yingyan.baidu.com/api/v3/";
+        public const string Url = "http://yingyan.baidu.com/api/v3/";
 
-        private HttpClient client;
+        private readonly HttpClient _client;
 
         /// <summary>
         /// 鹰眼轨迹服务接口
         /// </summary>
         /// <param name="ak">用户的ak</param>
-        /// <param name="service_id">service的ID，service 的唯一标识</param>
+        /// <param name="serviceId">service的ID，service 的唯一标识</param>
         /// <param name="sk">sn签名的验证方式的 Security Key</param>
-        public YingyanApi(string ak, string service_id, string sk = null)
+        public YingYanApi(string ak, string serviceId, string sk = null)
         {
-            this.ak = ak;
-            this.service_id = service_id;
-            this.sk = sk;
-            client = new HttpClient();
-            entity = new EntityApi(this);
-            track = new TrackApi(this);
-            fence = new FenceApi(this);
-            analysis = new AnalysisApi(this);
-            export = new ExportApi(this);
-            client = new HttpClient();
-            client.BaseAddress = new Uri(url);
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            this.Ak = ak;
+            ServiceId = serviceId;
+            this.Sk = sk;
+            _client = new HttpClient();
+            Entity = new EntityApi(this);
+            Track = new TrackApi(this);
+            Fence = new FenceApi(this);
+            Analysis = new AnalysisApi(this);
+            Export = new ExportApi(this);
+            _client = new HttpClient { BaseAddress = new Uri(Url) };
+            _client.DefaultRequestHeaders.Accept.Clear();
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         /// <summary>
@@ -94,10 +94,10 @@ namespace Baidu.Yingyan
         /// <param name="requestUri">方法</param>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        internal Task<TResult> get<TResult>(string requestUri, Dictionary<string, string> param)
+        internal Task<TResult> Get<TResult>(string requestUri, Dictionary<string, string> param)
             where TResult : CommonResult, new()
         {
-            return get<TResult>(requestUri, new DictionaryYingyanParam(param));
+            return Get<TResult>(requestUri, new DictionaryYingYanParam(param));
         }
 
         /// <summary>
@@ -107,14 +107,14 @@ namespace Baidu.Yingyan
         /// <param name="requestUri">方法</param>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        internal async Task<TResult> get<TResult>(string requestUri, IYingyanParam param = null)
+        internal async Task<TResult> Get<TResult>(string requestUri, IYingYanParam param = null)
         where TResult : CommonResult, new()
         {
-            var args = getDefaultArgs();
+            var args = GetDefaultArgs();
             if (param != null)
                 args = param.FillArgs(args);
 
-            calcSN(requestUri, args, false);
+            CalcSn(requestUri, args);
 
             if (args?.Count > 0)
             {
@@ -129,13 +129,13 @@ namespace Baidu.Yingyan
                     requestUri += "?" + q;
             }
 
-            var response = await client.GetAsync(requestUri);
+            var response = await _client.GetAsync(requestUri);
             if (response.IsSuccessStatusCode)
                 return await response.Content.JsonReadAsAsync<TResult>();
 
             var r = new TResult();
-            r.status = StatusCodeEnums.error999;
-            r.message = $"http 请求错误：StatusCode={response.StatusCode}, ReasonPhrase={response.ReasonPhrase}";
+            r.Status = StatusCodeEnums.error999;
+            r.Message = $"http 请求错误：StatusCode={response.StatusCode}, ReasonPhrase={response.ReasonPhrase}";
             return r;
         }
 
@@ -146,10 +146,10 @@ namespace Baidu.Yingyan
         /// <param name="requestUri">方法</param>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        internal Task<TResult> post<TResult>(string requestUri, Dictionary<string, string> param)
+        internal Task<TResult> Post<TResult>(string requestUri, Dictionary<string, string> param)
             where TResult : CommonResult, new()
         {
-            return post<TResult>(requestUri, new DictionaryYingyanParam(param));
+            return Post<TResult>(requestUri, new DictionaryYingYanParam(param));
         }
 
         /// <summary>
@@ -159,23 +159,23 @@ namespace Baidu.Yingyan
         /// <param name="requestUri">方法</param>
         /// <param name="param">参数</param>
         /// <returns></returns>
-        internal async Task<TResult> post<TResult>(string requestUri, IYingyanParam param = null)
+        internal async Task<TResult> Post<TResult>(string requestUri, IYingYanParam param = null)
         where TResult : CommonResult, new()
         {
-            var args = getDefaultArgs();
+            var args = GetDefaultArgs();
             if (param != null)
                 args = param.FillArgs(args);
 
-            calcSN(requestUri, args, true);
+            CalcSn(requestUri, args, true);
 
             var content = new FormUrlEncodedContent(args);
 
-            var response = await client.PostAsync(requestUri, content);
+            var response = await _client.PostAsync(requestUri, content);
             if (response.IsSuccessStatusCode)
                 return await response.Content.JsonReadAsAsync<TResult>();
             var r = new TResult();
-            r.status = StatusCodeEnums.error999;
-            r.message = $"http 请求错误：StatusCode={response.StatusCode}, ReasonPhrase={response.ReasonPhrase}";
+            r.Status = StatusCodeEnums.error999;
+            r.Message = $"http 请求错误：StatusCode={response.StatusCode}, ReasonPhrase={response.ReasonPhrase}";
             return r;
         }
 
@@ -184,12 +184,12 @@ namespace Baidu.Yingyan
         /// </summary>
         /// <param name="otherValues">The other values.</param>
         /// <returns></returns>
-        internal Dictionary<string, string> getDefaultArgs(Dictionary<string, string> otherValues = null)
+        internal Dictionary<string, string> GetDefaultArgs(Dictionary<string, string> otherValues = null)
         {
             var args = new Dictionary<string, string>()
             {
-                ["ak"] = ak,
-                ["service_id"] = service_id
+                ["ak"] = Ak,
+                ["service_id"] = ServiceId
             };
 
             if (otherValues?.Any() == true)
@@ -206,18 +206,18 @@ namespace Baidu.Yingyan
         /// <param name="requestUri">特殊的请求地址</param>
         /// <param name="args">请求参数</param>
         /// <param name="post">是Post或者是Get方式</param>
-        private void calcSN(string requestUri, IDictionary<string, string> args, bool post = false)
+        private void CalcSn(string requestUri, IDictionary<string, string> args, bool post = false)
         {
-            if (string.IsNullOrWhiteSpace(sk))
+            if (string.IsNullOrWhiteSpace(Sk))
                 return;
 
-            var uri = new Uri(new Uri(url), requestUri);
+            var uri = new Uri(new Uri(Url), requestUri);
             var requestPath = uri.AbsolutePath;
 
             //POST计算sn时，参数要排序
             var dic = post ? new SortedDictionary<string, string>(args) : args;
 
-            var sn = BaiduSNCaculater.CaculateSN(sk, requestPath, dic);
+            var sn = BaiduSnCalculate.CalculateSn(Sk, requestPath, dic);
             args["sn"] = sn;
         }
     }

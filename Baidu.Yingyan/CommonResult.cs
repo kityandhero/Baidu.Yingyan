@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Baidu.Yingyan
+namespace Baidu.YingYan
 {
     /// <summary>
     /// 通用返回结果
@@ -10,22 +10,20 @@ namespace Baidu.Yingyan
         /// <summary>
         /// 返回状态，0为成功
         /// </summary>
-        public StatusCodeEnums status { get; set; }
+        public StatusCodeEnums Status { get; set; }
 
         /// <summary>
         /// 对status的中文描述
         /// </summary>
-        public string message { get; set; }
+        public string Message { get; set; }
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
-        /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
-        /// </returns>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return string.Format("status={0}, message={1}", status, message);
+            return $"status={Status}, message={Message}";
         }
     }
 

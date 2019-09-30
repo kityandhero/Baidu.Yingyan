@@ -1,39 +1,37 @@
-﻿using Baidu.Yingyan;
-using Baidu.Yingyan.Track;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Baidu.YingYan;
+using Baidu.YingYan.Track;
+using NUnit.Framework;
 
-namespace Baidu.Yingyan.Tests.Track
+namespace Baidu.YingYan.Tests.Track
 {
     [TestFixture()]
     public class TrackApiTests
     {
-        TrackApi api;
-        string entity_name1;
-        string entity_name2;
-        string entity_name3;
+        private TrackApi api;
+        private string entity_name1;
+        private string entity_name2;
+        private string entity_name3;
+
         [OneTimeSetUp]
         public void Init()
         {
             var ak = "jmH6fA2QzDWfyPvkKslL741L";
             var service_id = "105686";
-            var yingyan = new YingyanApi(ak, service_id);
-            api = yingyan.track;
+            var yingyan = new YingYanApi(ak, service_id);
+            api = yingyan.Track;
             entity_name1 = "data1";
             entity_name2 = "data2";
             entity_name3 = "data3";
 
             //var r1 = yingyan.entity.add(entity_name1).Result;
             //var r2 = yingyan.entity.delete(entity_name3).Result;
-            var r3 = yingyan.entity.add(entity_name3).Result;
-
-
+            var r3 = yingyan.Entity.Add(entity_name3).Result;
         }
+
         /// <summary>
         /// 上传数据
         /// </summary>
@@ -42,6 +40,7 @@ namespace Baidu.Yingyan.Tests.Track
         {
             uploadData(entity_name1, 100000);
         }
+
         /// <summary>
         /// 上传数据
         /// </summary>
@@ -63,7 +62,7 @@ namespace Baidu.Yingyan.Tests.Track
             int total = points.Count;
             foreach (var p in points.Skip(count))
             {
-                var r2 = api.addpoint(entity_name3, p).Result;
+                var r2 = api.AddPoint(entity_name3, p).Result;
                 count++;
                 if (count % 100 == 0)
                     Console.WriteLine("count: {0} {1:p}", count, count / 1.0 / total);
@@ -88,8 +87,6 @@ namespace Baidu.Yingyan.Tests.Track
             batchUploadData(entity_name2, 90);
         }
 
-
-
         private void uploadData(string entity_name, int skip = 0)
         {
             var points = loadFile(entity_name, DateTime.Now.AddDays(-1));
@@ -97,7 +94,7 @@ namespace Baidu.Yingyan.Tests.Track
             int total = points.Count;
             foreach (var p in points.Skip(count))
             {
-                var r2 = api.addpoint(entity_name, p).Result;
+                var r2 = api.AddPoint(entity_name, p).Result;
                 count++;
                 if (count % 100 == 0)
                     Console.WriteLine("count: {0} {1:p}", count, count / 1.0 / total);
@@ -117,14 +114,14 @@ namespace Baidu.Yingyan.Tests.Track
                  .Select(o => new TrackPoint()
                  {
                      coord_type = CoordType.GPS,
-                     loc_time = DateTime.Parse(o[0]),
-                     longitude = double.Parse(o[1]),
-                     latitude = double.Parse(o[2])
+                     LocTime = DateTime.Parse(o[0]),
+                     Longitude = double.Parse(o[1]),
+                     Latitude = double.Parse(o[2])
                  }).ToList();
             if (setDate != null && points.Count > 0)
             {
-                var r = (int)(setDate.Value - points[0].loc_time).TotalDays;
-                points.ForEach(o => o.loc_time = o.loc_time.AddDays(r));
+                var r = (int)(setDate.Value - points[0].LocTime).TotalDays;
+                points.ForEach(o => o.LocTime = o.LocTime.AddDays(r));
             }
             return points;
         }
@@ -144,7 +141,7 @@ namespace Baidu.Yingyan.Tests.Track
                 .GroupBy(o => o.i / batch)
                 .Select(o => o.Select(v => v.o).ToArray()))
             {
-                var r2 = api.addpoints(entity_name, ps).Result;
+                var r2 = api.AddPoints(entity_name, ps).Result;
                 count += ps.Length;
                 if (count % 100 == 0)
                     Console.WriteLine("count: {0} {1:p}", count, count / 1.0 / total);

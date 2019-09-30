@@ -1,10 +1,10 @@
-﻿namespace Baidu.Yingyan.Track
+﻿namespace Baidu.YingYan.Track
 {
     /// <summary>
     /// 批量添加的错误点
     /// </summary>
-    /// <seealso cref="Baidu.Yingyan.Track.TrackPoint" />
-    public class TrackErrorPoint : TrackPoint
+    /// <seealso cref="Baidu.YingYan.Track.TrackPoint" />
+    public abstract class TrackErrorPoint : TrackPoint
     {
         /// <summary>
         /// 错误信息

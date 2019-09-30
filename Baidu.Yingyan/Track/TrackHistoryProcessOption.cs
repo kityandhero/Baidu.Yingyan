@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Baidu.Yingyan.Track
+namespace Baidu.YingYan.Track
 {
     /// <summary>
     /// 纠偏选项
@@ -10,27 +10,27 @@ namespace Baidu.Yingyan.Track
         /// <summary>
         /// 去噪，默认为1
         /// </summary>
-        public bool? need_denoise { get; set; }
+        public bool? NeedDenoise { get; set; }
 
         /// <summary>
         /// 绑路，之前未开通绑路的service，默认值为0；之前已开通绑路的service，默认值为1
         /// </summary>
-        public bool? need_mapmatch { get; set; }
+        public bool? NeedMapmatch { get; set; }
 
         /// <summary>
         /// 抽稀,默认值为0
         /// </summary>
-        public bool? need_vacuate { get; set; }
+        public bool? NeedVacuate { get; set; }
 
         /// <summary>
         ///   定位精度过滤，用于过滤掉定位精度较差的轨迹点，默认为0
         /// </summary>
-        public int? radius_threshold { get; set; }
+        public int? RadiusThreshold { get; set; }
 
         /// <summary>
         /// 交通方式
         /// </summary>
-        public TrackHistoryTransportModeEnums? transport_mode { get; set; }
+        public TrackHistoryTransportModeEnums? TransportMode { get; set; }
 
         /// <summary>
         /// 获取选项值
@@ -53,16 +53,16 @@ namespace Baidu.Yingyan.Track
         public override string ToString()
         {
             var options = new List<string>();
-            if (need_denoise != null)
-                options.Add(GetOption(nameof(need_denoise), need_denoise.Value));
-            if (radius_threshold > 0)
-                options.Add($"{nameof(radius_threshold)}={radius_threshold}");
-            if (need_vacuate != null)
-                options.Add(GetOption(nameof(need_vacuate), need_vacuate.Value));
-            if (need_mapmatch != null)
-                options.Add(GetOption(nameof(need_mapmatch), need_mapmatch.Value));
-            if (transport_mode != null)
-                options.Add($"{nameof(transport_mode)}={(int)transport_mode}");
+            if (NeedDenoise != null)
+                options.Add(GetOption(nameof(NeedDenoise), NeedDenoise.Value));
+            if (RadiusThreshold > 0)
+                options.Add($"{nameof(RadiusThreshold)}={RadiusThreshold}");
+            if (NeedVacuate != null)
+                options.Add(GetOption(nameof(NeedVacuate), NeedVacuate.Value));
+            if (NeedMapmatch != null)
+                options.Add(GetOption(nameof(NeedMapmatch), NeedMapmatch.Value));
+            if (TransportMode != null)
+                options.Add($"{nameof(TransportMode)}={(int)TransportMode}");
             return string.Join(",", options);
         }
     }

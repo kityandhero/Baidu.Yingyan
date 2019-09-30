@@ -1,35 +1,34 @@
-﻿using Baidu.Yingyan.Entity;
+﻿using Baidu.YingYan.Entity;
 using System.ComponentModel.DataAnnotations;
+using Baidu.YingYan.Extensions;
 
-namespace Baidu.Yingyan.Track
+namespace Baidu.YingYan.Track
 {
     /// <summary>
     /// 轨迹点
     /// </summary>
-    /// <seealso cref="Baidu.Yingyan.Entity.EntityLocationPoint" />
+    /// <seealso><cref>Baidu.YingYan.Entity.EntityLocationPoint</cref></seealso>
     public class TrackPoint : EntityLocationPoint
     {
         /// <summary>
         /// entity唯一标识
         /// </summary>
         [Required]
-        public string entity_name { get; set; }
+        public string EntityName { get; set; }
 
         /// <summary>
         /// 坐标类型
         /// </summary>
         [Required]
-        public CoordTypeEnums coord_type_input { get; set; } = CoordTypeEnums.bd09ll;
+        public CoordTypeEnums CoordTypeInput { get; set; } = CoordTypeEnums.bd09Ll;
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
-        /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
-        /// </returns>
+        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return string.Format("{0},{1},{2},{3},{4}", entity_name, longitude, latitude, loc_time.ToUtcTicks(), coord_type_input);
+            return $"{EntityName},{Longitude},{Latitude},{LocTime.ToUtcTicks()},{CoordTypeInput}";
         }
     }
 }

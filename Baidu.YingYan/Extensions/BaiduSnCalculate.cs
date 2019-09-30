@@ -4,20 +4,20 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Baidu.Yingyan
+namespace Baidu.YingYan.Extensions
 {
     /// <summary>
-    /// sn计算算法，官方文档中的示例代码很坑
-    /// <a href="http://lbsyun.baidu.com/index.php?title=webapi/appendix">sn计算算法</a>
+    /// sn计算算法，官方文档中的示例代码很坑 <a
+    /// href="http://lbsyun.baidu.com/index.php?title=webapi/appendix">sn计算算法</a>
     /// </summary>
-    public static class BaiduSNCaculater
+    public static class BaiduSnCalculate
     {
         /// <summary>
         /// 计算md5
         /// </summary>
         /// <param name="str">The password.</param>
         /// <returns></returns>
-        private static string MD5(string str)
+        private static string Md5(string str)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(str);
             using (var md5 = new MD5CryptoServiceProvider())
@@ -34,11 +34,11 @@ namespace Baidu.Yingyan
         /// <param name="absolutePath">Url 中的绝对路径.</param>
         /// <param name="args">参数</param>
         /// <returns></returns>
-        public static string CaculateSN(string sk, string absolutePath, IDictionary<string, string> args)
+        public static string CalculateSn(string sk, string absolutePath, IDictionary<string, string> args)
         {
             var queryString = args.ToUriQuery();
             var str = WebUtility.UrlEncode(absolutePath + "?" + queryString + sk);
-            return MD5(str);
+            return Md5(str);
         }
     }
 }
